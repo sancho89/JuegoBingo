@@ -39,6 +39,10 @@ public class Bingo {
         System.out.println("Cartón jugador 1: ");
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
+                do {
+                    
+                } while (true);
+                
                     jugador1[i][j] = (int) (Math.random() * (90 - 1 + 1) + 1);
             }
         }

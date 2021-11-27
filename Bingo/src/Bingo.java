@@ -22,10 +22,6 @@ public class Bingo {
         int[] bingo = new int[numsBingo];
         int[][] jugador1 = new int[5][5];
         int[][] jugador2 = new int[5][5];
-        int[][] jugador3 = new int[5][5];
-        int[][] jugador4 = new int[5][5];
-        int[][] jugador5 = new int[5][5];
-        int[][] jugador6 = new int[5][5];
 
         for (int i = 0; i < numsBingo; i++) {
             bingo[i] = i + 1;
@@ -35,17 +31,33 @@ public class Bingo {
         for (int i = 0; i < numsBingo; i++) {
             System.out.print(bingo[i] + "  ");
         }
+        System.out.println("");
 
         System.out.println("Cartón jugador 1: ");
+
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
-                    jugador1[i][j] = (int) (Math.random() * (90 - 1 + 1) + 1);
+                int numAzar = (int) (Math.random() * (numsBingo - 1 + 1));
+                jugador1[i][j] = bingo[numAzar];
+                for (int k = numAzar + 1; k < numsBingo; k++) {
+                    bingo[k - 1] = bingo[k];
+                }
+                numsBingo--;
+            }
+        }
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                
             }
         }
 
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
-                System.out.print(jugador1[i][j] + "  ");
+                if (jugador1[i][j] < 10) {
+                    System.out.print(jugador1[i][j] + "  ");
+                } else {
+                    System.out.print(jugador1[i][j] + " ");
+                }
             }
             System.out.println("");
         }

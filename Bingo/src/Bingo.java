@@ -60,7 +60,6 @@ public class Bingo {
             }
         }
 
-
         for (int i = 0; i < jugador1.length; i++) {
                 ordenarFila(jugador1[i]);
         }

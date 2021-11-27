@@ -12,8 +12,22 @@
  */
 import java.util.Scanner;
 
-public class Bingo {
+import java.util.Arrays;
 
+public class Bingo {
+    
+    public static void ordenarFila(int fila[]) {
+        int i, j, ant;
+        for (i = 0; i < fila.length - 1; i++) {
+            for (j = 0; j < fila.length - i - 1; j++) {
+                if (fila[j + 1] < fila[j]) {
+                    ant = fila[j + 1];
+                    fila[j + 1] = fila[j];
+                    fila[j] = ant;
+                }
+            }
+        }
+    }
     public static void main(String[] args) {
 
         Scanner in = new Scanner(System.in);
@@ -45,14 +59,15 @@ public class Bingo {
                 numsBingo--;
             }
         }
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                
-            }
-        }
 
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
+
+        for (int i = 0; i < jugador1.length; i++) {
+                ordenarFila(jugador1[i]);
+        }
+        
+        System.out.println("");
+        for (int i = 0; i < jugador1.length; i++) {
+            for (int j = 0; j < jugador1.length; j++) {
                 if (jugador1[i][j] < 10) {
                     System.out.print(jugador1[i][j] + "  ");
                 } else {

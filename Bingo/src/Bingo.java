@@ -76,12 +76,18 @@ public class Bingo {
             System.out.println("");
         }
 
-        for (int i = 0; i < numsBingo; i++) {
+        numsBingo = 90;
+        for (int i = 0; i < bingo.length; i++) {
+            bingo[i] = i + 1;
+        }
+
+        while (numsBingo > 0) {
             int numAzar = (int) (Math.random() * (numsBingo - 1 + 1));
             System.out.println(bingo[numAzar]);
-            for (int j = numAzar+1; j < 10; j++) {
-                
+            for (int j = numAzar + 1; j < numsBingo; j++) {
+                bingo[j - 1] = bingo[j];
             }
+            numsBingo--;
         }
     }
 }

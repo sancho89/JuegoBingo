@@ -15,7 +15,7 @@ import java.util.Scanner;
 import java.util.Arrays;
 
 public class Bingo {
-    
+
     public static void ordenarFila(int fila[]) {
         int i, j, ant;
         for (i = 0; i < fila.length - 1; i++) {
@@ -28,6 +28,7 @@ public class Bingo {
             }
         }
     }
+
     public static void main(String[] args) {
 
         Scanner in = new Scanner(System.in);
@@ -35,7 +36,6 @@ public class Bingo {
         int numsBingo = 90;
         int[] bingo = new int[numsBingo];
         int[][] jugador1 = new int[5][5];
-        int[][] jugador2 = new int[5][5];
 
         for (int i = 0; i < numsBingo; i++) {
             bingo[i] = i + 1;
@@ -61,9 +61,9 @@ public class Bingo {
         }
 
         for (int i = 0; i < jugador1.length; i++) {
-                ordenarFila(jugador1[i]);
+            ordenarFila(jugador1[i]);
         }
-        
+
         System.out.println("");
         for (int i = 0; i < jugador1.length; i++) {
             for (int j = 0; j < jugador1.length; j++) {
@@ -72,8 +72,16 @@ public class Bingo {
                 } else {
                     System.out.print(jugador1[i][j] + " ");
                 }
-            }
+            };
             System.out.println("");
+        }
+
+        for (int i = 0; i < numsBingo; i++) {
+            int numAzar = (int) (Math.random() * (numsBingo - 1 + 1));
+            System.out.println(bingo[numAzar]);
+            for (int j = numAzar+1; j < 10; j++) {
+                
+            }
         }
     }
 }

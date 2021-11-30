@@ -36,6 +36,7 @@ public class Bingo {
         int numsBingo = 90;
         int[] bingo = new int[numsBingo];
         int[][] jugador1 = new int[5][5];
+        int[] suma = new int[5];
 
         for (int i = 0; i < numsBingo; i++) {
             bingo[i] = i + 1;
@@ -72,7 +73,7 @@ public class Bingo {
                 } else {
                     System.out.print(jugador1[i][j] + " ");
                 }
-            };
+            }
             System.out.println("");
         }
 
@@ -80,14 +81,54 @@ public class Bingo {
         for (int i = 0; i < bingo.length; i++) {
             bingo[i] = i + 1;
         }
-
+        
+        // COMIENZA EL BINGO
+        System.out.println("");
+        System.out.println("Están preparados jugadores??? JUGAMOS PARA BINGO!");
+        in.nextLine();
+        
+        //INTRODUCIMOS MATH.RANDOM PARA SACAR LAS BOLAS DEL BINGO ALEATORIAMENTE
         while (numsBingo > 0) {
             int numAzar = (int) (Math.random() * (numsBingo - 1 + 1));
-            System.out.println(bingo[numAzar]);
-            for (int j = numAzar + 1; j < numsBingo; j++) {
-                bingo[j - 1] = bingo[j];
+            System.out.println("");
+            System.out.println("Bola número " + bingo[numAzar] + "!");
+            in.nextLine();
+            
+            // RECORREMOS LA MATRIZ DEL JUGADOR BUSCANDO COINCIDENCIAS CON LA BOLA EXTRAIDA
+            // SI ENCUENTRA COINCIDENCIA CAMBIO EL VALOR DE LA MATRIZ ACTUAL POR UN 0
+            for (int i = 0; i < jugador1.length; i++) {
+                for (int j = 0; j < jugador1.length; j++) {
+                    if (jugador1[i][j] == bingo[numAzar]) {
+                        jugador1[i][j] = 0;
+                        System.out.println("Lo tienes!");
+                        System.out.println("");
+                        
+                        // IMPRIMIMOS EL CARTÓN DEL JUGADOR DE NUEVO ACTUALIZADA
+                        for (int k = 0; k < jugador1.length; k++) {
+                            for (int l = 0; l < jugador1.length; l++) {
+                                if (jugador1[k][l] < 10) {
+                                    System.out.print(jugador1[k][l] + "  ");
+                                } else {
+                                    System.out.print(jugador1[k][l] + " ");
+                                }
+                                
+                                suma[k] += jugador1[k][l];
+                                if (suma[k] == 0) {
+                                    System.out.println("¡¡¡CANTA LÍNEA!!!");
+                                }
+                            }   
+                            System.out.println("");
+                        }
+                    }
+                }
+            }
+
+            for (int i = numAzar + 1; i < numsBingo; i++) {
+                bingo[i - 1] = bingo[i];
             }
             numsBingo--;
         }
+
+        // Comparamos el número extraido del bombo con el carton del jugador
     }
 }

@@ -41,13 +41,15 @@ public class Bingo {
         for (int i = 0; i < numsBingo; i++) {
             bingo[i] = i + 1;
         }
-
+        
+        // IMPRIMIMOS LOS NÚMEROS DEL BINGO
         System.out.println("Números del Bingo: ");
         for (int i = 0; i < numsBingo; i++) {
             System.out.print(bingo[i] + "  ");
         }
         System.out.println("");
-
+        
+        // MOSTRAMOS EL CARTÓN DEL JUGADOR RELLENANDO LA MATRIZ 5X5 ELIMINANDO EL NÚMERO QUE SACAMOS ALEATORIAMENTE
         System.out.println("Cartón jugador 1: ");
 
         for (int i = 0; i < 5; i++) {
@@ -60,11 +62,13 @@ public class Bingo {
                 numsBingo--;
             }
         }
-
+        
+        // ORDENAMOS LAS FILAS DEL CARTÓN
         for (int i = 0; i < jugador1.length; i++) {
             ordenarFila(jugador1[i]);
         }
-
+        
+        // SI EL VALOR ES DE UNA CIFRA AÑADIMOS 2 ESPACIOS Y SI NO SÓLO 1 PARA QUE LA MATRIZ QUEDE ORDENADA Y SEA MÁS LEGIBLE
         System.out.println("");
         for (int i = 0; i < jugador1.length; i++) {
             for (int j = 0; j < jugador1.length; j++) {
@@ -77,6 +81,7 @@ public class Bingo {
             System.out.println("");
         }
 
+        // LLENAMOS EL VECTOR DEL BINGO CON LOS NÚMEROS DEL 1 AL 90 NUEVAMENTE PORQUE LO HEMOS VACIADO PARA RELLENAR EL CARTÓN DEL JUGADOR
         numsBingo = 90;
         for (int i = 0; i < bingo.length; i++) {
             bingo[i] = i + 1;

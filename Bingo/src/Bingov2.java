@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 import java.util.Arrays;
 
-public class Bingo {
+public class Bingov2 {
 
     public static void ordenarFila(int fila[]) {
         int i, j, ant;
@@ -122,10 +122,10 @@ public class Bingo {
                                     System.out.print(jugador1[k][l] + " ");
                                 }
                                 
-                                suma[k] += jugador1[k][l];
+                                /*suma[k] += jugador1[k][l];
                                 if (suma[k] == 0) {
                                     System.out.println("¡¡¡CANTA LÍNEA!!!");
-                                }
+                                }*/
                             }   
                             System.out.println("");
                         }

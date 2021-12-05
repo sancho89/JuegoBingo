@@ -16,65 +16,58 @@ import java.util.Arrays;
 
 public class Bingo {
 
-    public static void ordenarFila(int fila[]) {
-        int i, j, ant;
-        
-        Arrays.sort(fila);
-        
-        /*
-        for (i = 0; i < fila.length - 1; i++) {
-            for (j = 0; j < fila.length - i - 1; j++) {
-                if (fila[j + 1] < fila[j]) {
-                    ant = fila[j + 1];
-                    fila[j + 1] = fila[j];
-                    fila[j] = ant;
-                }
-            }
+    // ORDENAMOS LAS FILAS DEL CARTÓN
+    public static void ordenarFila(int jugador1[][]) {
+
+        for (int i = 0; i < jugador1.length; i++) {
+            Arrays.sort(jugador1[i]);
         }
-        */
+
     }
 
-    public static void main(String[] args) {
+    // RELLENAMOS EL BINGO ALEATORIAMENTE
+    public static void rellenarBingo(int numsBingo, int bingo[]) {
 
-        Scanner in = new Scanner(System.in);
-
-        int numsBingo = 90;
-        int[] bingo = new int[numsBingo];
-        int[][] jugador1 = new int[5][5];
-        int[] suma = new int[5];
-
+        numsBingo = 90;
         for (int i = 0; i < numsBingo; i++) {
             bingo[i] = i + 1;
         }
-        
-        // IMPRIMIMOS LOS NÚMEROS DEL BINGO
-        System.out.println("Números del Bingo: ");
-        for (int i = 0; i < numsBingo; i++) {
-            System.out.print(bingo[i] + "  ");
-        }
-        System.out.println("");
-        
-        // GENERAMOS EL CARTÓN DEL JUGADOR RELLENANDO LA MATRIZ 5X5 ELIMINANDO EL NÚMERO QUE SACAMOS ALEATORIAMENTE
-        System.out.println("Cartón jugador 1: ");
+    }
 
+    // SACAMOS LA BOLA DEL BINGO ALEATORIAMENTE
+    public static int sacarBola(int numsBingo) {
+
+        int numAzar = (int) (Math.random() * (numsBingo - 1 + 1));
+        return numAzar;
+    }
+
+    // ELIMINAMOS LA BOLA EXTRAIDA DEL VECTOR BINGO PARA QUE NO SE REPITA
+    public static int eliminarBola(int numsBingo, int bingo[], int numAzar) {
+
+        for (int k = numAzar + 1; k < numsBingo; k++) {
+            bingo[k - 1] = bingo[k];
+
+        }
+        numsBingo--;
+        return numsBingo;
+    }
+
+    // GENERAMOS EL CARTÓN DEL JUGADOR RELLENANDO LA MATRIZ 5X5 ELIMINANDO EL NÚMERO QUE SACAMOS ALEATORIAMENTE
+    public static void rellenarCarton(int carton[][], int numsBingo, int bingo[]) {
+
+        int numAzar;
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
-                int numAzar = (int) (Math.random() * (numsBingo - 1 + 1));
-                jugador1[i][j] = bingo[numAzar];
-                for (int k = numAzar + 1; k < numsBingo; k++) {
-                    bingo[k - 1] = bingo[k];
-                }
-                numsBingo--;
+                numAzar = sacarBola(numsBingo);
+                carton[i][j] = bingo[numAzar];
+                numsBingo = eliminarBola(numsBingo, bingo, numAzar);
             }
         }
-        
-        // ORDENAMOS LAS FILAS DEL CARTÓN
-        for (int i = 0; i < jugador1.length; i++) {
-            ordenarFila(jugador1[i]);
-        }
-        
-        // SI EL VALOR ES DE UNA CIFRA AÑADIMOS 2 ESPACIOS Y SI NO SÓLO 1 PARA QUE LA MATRIZ QUEDE ORDENADA Y SEA MÁS LEGIBLE
-        System.out.println("");
+    }
+
+    // SI EL VALOR ES DE UNA CIFRA AÑADIMOS 2 ESPACIOS Y SI NO SÓLO 1 PARA QUE LA MATRIZ QUEDE ORDENADA Y SEA MÁS LEGIBLE
+    public static void mostrarCarton(int jugador1[][]) {
+
         for (int i = 0; i < jugador1.length; i++) {
             for (int j = 0; j < jugador1.length; j++) {
                 if (jugador1[i][j] < 10) {
@@ -85,60 +78,127 @@ public class Bingo {
             }
             System.out.println("");
         }
+    }
 
-        // LLENAMOS EL VECTOR DEL BINGO CON LOS NÚMEROS DEL 1 AL 90 NUEVAMENTE PORQUE LO HEMOS VACIADO PARA RELLENAR EL CARTÓN DEL JUGADOR
-        numsBingo = 90;
-        for (int i = 0; i < bingo.length; i++) {
-            bingo[i] = i + 1;
+    // RECORREMOS LA MATRIZ DEL JUGADOR BUSCANDO COINCIDENCIAS CON LA BOLA EXTRAIDA
+    // SI ENCUENTRA COINCIDENCIA CAMBIO EL VALOR DE LA MATRIZ ACTUAL POR UN 0
+    // VALORAMOS SI EL USUARIO O LA IA CANTAN LÍNEA
+    static boolean compararNumero(int jugador1[][], int bingo[], int numsAzar, boolean hayLinea, int suma[], boolean esIA) {
+        for (int i = 0; i < jugador1.length; i++) {
+            int sumaFila = 0;
+            for (int j = 0; j < jugador1.length; j++) {
+                if (jugador1[i][j] == bingo[numsAzar]) {
+                    jugador1[i][j] = 0;
+                    if (!esIA) {
+                        System.out.println("Lo tienes!");
+                        mostrarCarton(jugador1);
+                        System.out.println("");
+                    }
+                }
+                sumaFila += jugador1[i][j];
+            }
+            suma[i] = sumaFila;
+            if (sumaFila == 0 && hayLinea == false) {
+                if (esIA) {
+                    System.out.println("¡¡¡ LA IA HA CANTADO LÍNEA, VES A POR EL BINGO CORRE!!!");
+                    hayLinea = true;
+                    mostrarCarton(jugador1);
+                } else {
+                    hayLinea = true;
+                    System.out.println("¡¡¡CANTA LÍNEA!!!");
+                }
+                hayLinea = true;
+            }
+
         }
-        
+        return hayLinea;
+    }
+
+    // COMPROBAMOS SI HAY BINGO HACIENDO UN SUMATORIO DE LAS FILAS, SI ES 0 CANTAMOS BINGO
+    public static boolean comprobarBingo(int suma[], boolean hayBingo, boolean esIA, int IA[][]) {
+        int sumaBingo = 0;
+        for (int i = 0; i < suma.length; i++) {
+            sumaBingo += suma[i];
+        }
+        if (sumaBingo == 0) {
+            if (esIA) {
+                System.out.println("LA IA HA CANTADO BINGO... LO SIENTO, VUELVE A INTENTARLO!");
+                hayBingo = true;
+                mostrarCarton(IA);
+            } else {
+                hayBingo = true;
+                System.out.println("¡¡¡CANTA BINGO!!!");
+            }
+            hayBingo = true;
+        }
+        return hayBingo;
+    }
+
+    // ENGLOBAMOS TODAS LAS FUNCIONES PREVIAS A QUE EMPIECE EL JUEGO PARA QUITAR CÓDIGO DEL MAIN
+    public static void prepararBingo(int numsBingo, int bingo[], int jugador1[][], int IA[][]) {
+
+        Scanner in = new Scanner(System.in);
+
+        // RELLENAMOS CARTÓN DEL JUGADOR 1
+        rellenarBingo(numsBingo, bingo);
+        rellenarCarton(jugador1, numsBingo, bingo);
+        ordenarFila(jugador1);
+
+        // RELLENAMOS CARTÓN DE LA IA
+        rellenarBingo(numsBingo, bingo);
+        rellenarCarton(IA, numsBingo, bingo);
+        ordenarFila(IA);
+
+        // IMPRIMIMOS LOS CARTONES
+        System.out.println("Cartón jugador 1: ");
+        mostrarCarton(jugador1);
+        System.out.println("");
+        System.out.println("Cartón IA: ");
+        mostrarCarton(IA);
+
+        rellenarBingo(numsBingo, bingo);
+
         // COMIENZA EL BINGO
         System.out.println("");
         System.out.println("Están preparados jugadores??? JUGAMOS PARA BINGO!");
         in.nextLine();
-        
-        //INTRODUCIMOS MATH.RANDOM PARA SACAR LAS BOLAS DEL BINGO ALEATORIAMENTE
-        while (numsBingo > 0) {
-            int numAzar = (int) (Math.random() * (numsBingo - 1 + 1));
-            System.out.println("");
-            System.out.println("Bola número " + bingo[numAzar] + "!");
-            in.nextLine();
-            
-            // RECORREMOS LA MATRIZ DEL JUGADOR BUSCANDO COINCIDENCIAS CON LA BOLA EXTRAIDA
-            // SI ENCUENTRA COINCIDENCIA CAMBIO EL VALOR DE LA MATRIZ ACTUAL POR UN 0
-            for (int i = 0; i < jugador1.length; i++) {
-                for (int j = 0; j < jugador1.length; j++) {
-                    if (jugador1[i][j] == bingo[numAzar]) {
-                        jugador1[i][j] = 0;
-                        System.out.println("Lo tienes!");
-                        System.out.println("");
-                        
-                        // IMPRIMIMOS EL CARTÓN DEL JUGADOR DE NUEVO ACTUALIZADA
-                        for (int k = 0; k < jugador1.length; k++) {
-                            for (int l = 0; l < jugador1.length; l++) {
-                                if (jugador1[k][l] < 10) {
-                                    System.out.print(jugador1[k][l] + "  ");
-                                } else {
-                                    System.out.print(jugador1[k][l] + " ");
-                                }
-                                
-                                suma[k] += jugador1[k][l];
-                                if (suma[k] == 0) {
-                                    System.out.println("¡¡¡CANTA LÍNEA!!!");
-                                }
-                            }   
-                            System.out.println("");
-                        }
-                    }
-                }
-            }
+    }
 
-            for (int i = numAzar + 1; i < numsBingo; i++) {
-                bingo[i - 1] = bingo[i];
-            }
-            numsBingo--;
+    // LAS FUNCIONES RESTANTES LAS METEMOS EN ESTA FUNCIÓN
+    public static void jugarBingo(int numsBingo, int bingo[], int jugador1[][], int IA[][], boolean hayFila, boolean hayBingo, int sumaJugador[], int sumaIA[]) {
+
+        Scanner in = new Scanner(System.in);
+
+        while (hayBingo == false) {
+            int numsAzar = sacarBola(numsBingo);
+            System.out.println("");
+            System.out.println("Bola número " + (bingo[numsAzar]) + "!");
+            in.nextLine();
+            hayFila = compararNumero(jugador1, bingo, numsAzar, hayFila, sumaJugador, false);
+            hayFila = compararNumero(IA, bingo, numsAzar, hayFila, sumaIA, true);
+            hayBingo = comprobarBingo(sumaJugador, hayBingo, false, jugador1);
+            hayBingo = comprobarBingo(sumaIA, hayBingo, true, IA);
+            numsBingo = eliminarBola(numsBingo, bingo, numsAzar);
+
         }
 
-        // Comparamos el número extraido del bombo con el carton del jugador
     }
+
+    public static void main(String[] args) {
+
+        // VARIABLES
+        int[][] IA = new int[5][5];
+        int numsBingo = 90;
+        int[] bingo = new int[numsBingo];
+        int[][] jugador1 = new int[5][5];
+        int[] sumaJugador = new int[5];
+        int[] sumaIA = new int[5];
+        boolean hayFila = false;
+        boolean hayBingo = false;
+
+        prepararBingo(numsBingo, bingo, jugador1, IA);
+        jugarBingo(numsBingo, bingo, jugador1, IA, hayFila, hayBingo, sumaJugador, sumaIA);
+
+    }
+
 }

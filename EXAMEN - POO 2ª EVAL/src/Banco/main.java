@@ -48,6 +48,7 @@ public class main {
             switch (opcion) {
 
                 case 1:
+                    
                     try {
                     banco.imprimir();
                 } catch (BancoException e) {
@@ -56,6 +57,7 @@ public class main {
                 break;
 
                 case 2:
+                    
                     try {
                     banco.imprimir();
                     System.out.println("Introduce la cantidad a ingresar ");
@@ -113,7 +115,6 @@ public class main {
                 case 5:
                     
                     try {
-
                     in.nextLine();
                     System.out.println("Introduce el nombre del titular");
                     titular = in.nextLine();
@@ -131,19 +132,24 @@ public class main {
                 break;
 
                 case 6:
-                    try {
+                    
+                    try {                 
                     banco.imprimir();
                     System.out.println("Introduce la posición a eliminar");
                     posicion = in.nextInt();
                     banco.eliminarCuenta(posicion);
                 } catch (BancoException e) {
                     System.err.println(e.getMessage());
+                } catch (InputMismatchException e) {
+                    System.err.println("ERROR: Carácter introducido no válido");
+                    in.nextLine();
                 }
                 break;
 
                 case 7:
                     try {
                     System.out.println("Introduce la búsqueda");
+                    in.nextLine();
                     busqueda = in.nextLine();
                     banco.buscarCuenta(busqueda);
                 } catch (BancoException e) {

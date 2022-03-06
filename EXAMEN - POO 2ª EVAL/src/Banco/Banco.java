@@ -31,6 +31,7 @@ public class Banco {
     }
 
     public void imprimir() throws BancoException {
+        System.out.println("----------------------------------------");
         if (cuentas.size() > 0) {
             for (int i = 0; i < cuentas.size(); i++) {
                 System.out.println(i + ". " + cuentas.get(i).getAll());
@@ -38,6 +39,7 @@ public class Banco {
         } else {
             throw new BancoException("ERROR: Lista vacía");
         }
+        System.out.println("----------------------------------------");
     }
 
     public void ingresar(double cantidad, int posicion) throws BancoException {
@@ -59,7 +61,7 @@ public class Banco {
         if (posicion >= 0 && posicion <= cuentas.size()) {
             if (cantidad >= 0) {
                 if ((cuentas.get(posicion).getSaldo() - cantidad) >= -100) {
-                    cuentas.get(posicion).setSaldo(cantidad - cuentas.get(posicion).getSaldo());
+                    cuentas.get(posicion).setSaldo(cuentas.get(posicion).getSaldo() - cantidad);
                     System.out.println("Dinero retirado con éxito");
                 } else {
                     throw new BancoException("ERROR: No puedes tener un saldo negativo de más de 100 €");
@@ -78,7 +80,7 @@ public class Banco {
         if (posOrigen >= 0 && posOrigen <= cuentas.size() && posDestino >= 0 && posDestino <= cuentas.size()) {
             if (cantidad >= 0) {
                 if ((cuentas.get(posOrigen).getSaldo() - cantidad) >= -100) {
-                    cuentas.get(posOrigen).setSaldo(cantidad - cuentas.get(posOrigen).getSaldo());
+                    cuentas.get(posOrigen).setSaldo(cuentas.get(posOrigen).getSaldo() - cantidad);
                     cuentas.get(posDestino).setSaldo(cantidad + cuentas.get(posDestino).getSaldo());
                     System.out.println("Transferencia realizada con éxito");
                 } else {
@@ -114,7 +116,6 @@ public class Banco {
     }
 
     public void eliminarCuenta(int posicion) throws BancoException {
-        imprimir();
 
         if (posicion >= 0 && posicion <= cuentas.size()) {
             cuentas.remove(posicion);

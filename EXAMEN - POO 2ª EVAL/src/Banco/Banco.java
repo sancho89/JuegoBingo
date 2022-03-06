@@ -32,16 +32,16 @@ public class Banco {
     }
 
     public void imprimir() throws BancoException {
-        if (cuentas.size() >= 0) {
+        if (cuentas.size() > 0) {
             for (int i = 0; i < cuentas.size(); i++) {
-                System.out.print(i + ". " + cuentas.get(i).getAll());
+                System.out.println(i + ". " + cuentas.get(i).getAll());
             }
+        } else {
+            throw new BancoException("ERROR: Lista vacía");
         }
-        throw new BancoException("ERROR: Lista vacía");
     }
 
     public void ingresar(double cantidad, int posicion) throws BancoException {
-        imprimir();
 
         if (posicion >= 0 && posicion <= cuentas.size()) {
             if (cantidad >= 0) {
@@ -56,7 +56,6 @@ public class Banco {
     }
 
     public void retirar(double cantidad, int posicion) throws BancoException {
-        imprimir();
 
         if (posicion >= 0 && posicion <= cuentas.size()) {
             if (cantidad >= 0) {
@@ -76,8 +75,6 @@ public class Banco {
     }
 
     public void transferencia(double cantidad, int posOrigen, int posDestino) throws BancoException {
-
-        imprimir();
 
         if (posOrigen >= 0 && posOrigen <= cuentas.size() && posDestino >= 0 && posDestino <= cuentas.size()) {
             if (cantidad >= 0) {
@@ -102,7 +99,7 @@ public class Banco {
 
         if (cuentas.size() < MAX) {
             for (int i = 0; i < cuentas.size(); i++) {
-                if (!cuentas.get(i).getTitular().toUpperCase().contains(titular.toUpperCase())) {
+                if (cuentas.get(i).getTitular().toUpperCase().contains(titular.toUpperCase())) {
                     contiene = true;
                 }
             }
@@ -112,8 +109,9 @@ public class Banco {
             } else {
                 throw new BancoException("ERROR: Ya existe un titular con el mismo nombre");
             }
+        } else {
+            throw new BancoException("ERROR: Lista llena");
         }
-        throw new BancoException("ERROR: Lista llena");
     }
 
     public void eliminarCuenta(int posicion) throws BancoException {

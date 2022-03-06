@@ -5,6 +5,7 @@
  */
 package Banco;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -30,7 +31,7 @@ public class main {
         String busqueda;
 
         do {
-
+            System.out.println("");
             System.out.println("1 Ver cuentas.\n"
                     + "2 Ingresar dinero.\n"
                     + "3 Retirar dinero.\n"
@@ -56,7 +57,7 @@ public class main {
 
                 case 2:
                     try {
-
+                    banco.imprimir();
                     System.out.println("Introduce la cantidad a ingresar ");
                     cantidad = in.nextDouble();
                     System.out.println("Introduce la posición en la que deseas hacer el ingreso");
@@ -65,13 +66,16 @@ public class main {
 
                 } catch (BancoException e) {
                     System.err.println(e.getMessage());
+                } catch (InputMismatchException e) {
+                    System.err.println("ERROR: Carácter introducido no válido");
+                    in.nextLine();
                 }
                 break;
 
                 case 3:
                     
                     try {
-
+                    banco.imprimir();
                     System.out.println("Introduce la cantidad a retirar ");
                     cantidad = in.nextDouble();
                     System.out.println("Introduce la posición en la que deseas hacer el reintegro");
@@ -80,13 +84,16 @@ public class main {
 
                 } catch (BancoException e) {
                     System.err.println(e.getMessage());
+                } catch (InputMismatchException e) {
+                    System.err.println("ERROR: Carácter introducido no válido");
+                    in.nextLine();
                 }
                 break;
 
                 case 4:
                     
                     try {
-
+                    banco.imprimir();
                     System.out.println("Introduce la cantidad a transferir ");
                     cantidad = in.nextDouble();
                     System.out.println("Introduce la posición de origen");
@@ -97,6 +104,9 @@ public class main {
 
                 } catch (BancoException e) {
                     System.err.println(e.getMessage());
+                } catch (InputMismatchException e) {
+                    System.err.println("ERROR: Carácter introducido no válido");
+                    in.nextLine();
                 }
                 break;
 
@@ -114,11 +124,15 @@ public class main {
 
                 } catch (BancoException e) {
                     System.err.println(e.getMessage());
+                } catch (InputMismatchException e) {
+                    System.err.println("ERROR: Carácter introducido no válido");
+                    in.nextLine();
                 }
                 break;
 
                 case 6:
                     try {
+                    banco.imprimir();
                     System.out.println("Introduce la posición a eliminar");
                     posicion = in.nextInt();
                     banco.eliminarCuenta(posicion);
